@@ -1,4 +1,4 @@
-import { client } from "../lib/db.js";
+import { getClient } from "../lib/db.js";
 import type { Route } from "@endpts/types";
 
 export default {
@@ -10,6 +10,8 @@ export default {
     if (!name || !language || !url || !stars) {
       return Response.json({ message: "Missing fields!" }, { status: 400 });
     }
+
+    const client = getClient();
 
     await client.execute({
       sql: "INSERT INTO frameworks(name, language, url, stars) VALUES(?, ?, ?, ?)",
