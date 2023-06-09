@@ -13,14 +13,9 @@ export default {
 
     const client = getClient();
 
-    await client.execute({
-      sql: "INSERT INTO frameworks(name, language, url, stars) VALUES(?, ?, ?, ?)",
-      args: [name, language, url, stars],
-    });
-
     const { rows: frameworks } = await client.execute({
-      sql: "SELECT * FROM frameworks WHERE url = ?",
-      args: [url],
+      sql: "INSERT INTO frameworks(name, language, url, stars) VALUES(?, ?, ?, ?) RETURNING *",
+      args: [name, language, url, stars],
     });
 
     return Response.json(frameworks[0]);
